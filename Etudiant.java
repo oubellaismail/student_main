@@ -65,11 +65,21 @@ public class Etudiant implements Comparable<Etudiant>{
 
     @Override
     public String toString(){
-        return "cne : " + cne + ", nom : " + nom + ", prenom : " + prenom + ", mark 1 = " + notes[0] + ", mark 2 = " + notes[1] + ", mark 3 = " + notes[2] + ", mark 4 = " + notes[3] + ", with moyenne = "+ calcMoy() + ", is it validated ? : " + etat ;
+        return "cne : " + cne + "\nnom : " + nom + "\nprenom : " + prenom + "\nmark 1 = " + notes[0] + ", mark 2 = " + notes[1] + ", mark 3 = " + notes[2] + ", mark 4 = " + notes[3] + ", with moyenne = "+ calcMoy();
     }
 
     @Override
     public int compareTo(Etudiant o) {
         return Double.compare(o.calcMoy(), this.calcMoy());
+    }
+
+
+
+    public boolean estValide() {
+        return calcMoy() >= 10;
+    }
+
+    public String getType() {
+        return "Etudiant";
     }
 }

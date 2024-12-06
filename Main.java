@@ -3,6 +3,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class Main {
     public static void main(String[] args) {
 
@@ -18,6 +19,12 @@ public class Main {
 
         for (int i = 0; i < n; i++) {
             System.out.println("Insert student number " + (i + 1) + ", informations : ");
+
+            System.out.println("\n---Nano Menu ---");
+            System.out.println("1. Ajouter un étudiant Engenering Cycle");
+            System.out.println("2. Ajouter un étudiant Cycle preparatoire");
+            System.out.print("Votre choix: ");
+            int choice = scanner.nextInt();
 
             System.out.print("Nom : ");
             String nom = scanner.next();
@@ -36,7 +43,16 @@ public class Main {
                 marks[j] = scanner.nextDouble();
             }
 
-            stds.add(new Etudiant(cne, nom, prenom, marks));
+            if(choice == 1) {
+                System.out.print("Pfe : ");
+                Double pfe = scanner.nextDouble();
+
+                stds.add(new EtudiantCycleIngenieur(cne, nom, prenom, marks, pfe));
+            }
+
+            else {
+                stds.add(new EtudiantCyclePreparatoire(cne, nom, prenom, marks));
+            }
         }
 
         while (true) {
@@ -47,7 +63,8 @@ public class Main {
             System.out.println("4. Rechercher un étudiant");
             System.out.println("5. Trier les étudiants par moyenne");
             System.out.println("6. Affichage des etudiants");
-            System.out.println("7. Quitter");
+            System.out.println("7. Affichage etudiant concerne au ratt : ");
+            System.out.println("8. Quitter");
             System.out.print("Votre choix: ");
             int choice = scanner.nextInt();
             switch (choice) {
@@ -70,12 +87,15 @@ public class Main {
                     break;
                 case 5:
                     sort(stds);
-                    display(stds);
+                    display(stds, scanner);
                     break;
                 case 6:
-                    display(stds);
+                    display(stds, scanner);
                     break;
                 case 7:
+                    ratrrapage(stds, scanner);
+                    break;
+                case 8:
                     System.out.println("Good bye !");
                     return;
                 default:
@@ -193,6 +213,13 @@ public class Main {
     }
 
     public static void add(List<Etudiant> stds, Scanner scanner) {
+
+        System.out.println("\n---Nano Menu ---");
+        System.out.println("1. Ajouter un étudiant Engenering Cycle");
+        System.out.println("2. Ajouter un étudiant Cycle preparatoire");
+        System.out.print("Votre choix: ");
+        int choice = scanner.nextInt();
+
         System.out.println("Give the number of students to insert : ");
         int n = scanner.nextInt();
 
@@ -216,7 +243,16 @@ public class Main {
                 marks[j] = scanner.nextDouble();
             }
 
-            stds.add(new Etudiant(cne, nom, prenom, marks));
+            if(choice == 1) {
+                System.out.print("Pfe : ");
+                Double pfe = scanner.nextDouble();
+
+                stds.add(new EtudiantCycleIngenieur(cne, nom, prenom, marks, pfe));
+            }
+
+            else {
+                stds.add(new EtudiantCyclePreparatoire(cne, nom, prenom, marks));
+            }
         }
     }
 
@@ -239,16 +275,52 @@ public class Main {
         }
     }
 
-    public static void display(List<Etudiant> stds) {
+    public static void display(List<Etudiant> stds, Scanner scanner) {
 
         if (stds.size() == 0) {
             System.out.println("No data to display ...!");
             return;
         }
 
+        System.out.println("\n---Nano Menu ---");
+        System.out.println("1. Display Engenering Cycle");
+        System.out.println("2. Display Cycle preparatoire");
+        System.out.print("Votre choix: ");
+        int choice = scanner.nextInt();
+
         setStatus(stds);
-        for (Etudiant std : stds) {
-            System.out.println(std);
+        
+        switch (choice) {
+            case 1:
+                System.out.println("Displaying Engenering Cycle : ");
+                for (Etudiant std : stds) {
+                    if (std.getType().equalsIgnoreCase("EtudiantCycleIngenieur")) {
+                        System.out.println(std);
+                    }
+                }
+                break;
+
+            case 2 :
+                System.out.println("Displaying Cycle preparatoire : ");
+                for (Etudiant std : stds) {
+                    if (std.getType().equalsIgnoreCase("EtudiantCyclePreparatoire")) {
+                        System.out.println(std);
+                    }
+                }
+                break; 
+            default:
+                break;
         }
+
+    }
+
+    public static void ratrrapage(List<Etudiant> stds, Scanner scanner){
+        List<Etudiant> rat = new ArrayList<Etudiant>();
+        for(Etudiant std : stds){
+            if(std.estValide() == false){
+                rat.add(std);
+            }
+        }
+        display(rat,scanner);
     }
 }
